@@ -259,11 +259,6 @@ num_empty_overall_manager_label = df_completo_01['overall_manager_label'].isna()
 print("Cantidad de campos vacíos en 'overall_manager_rating':", num_empty_overall_manager_rating)
 print("Cantidad de campos vacíos en 'overall_manager_label':", num_empty_overall_manager_label)
 
-num_rows_only_overall_manager_rating = df_completo_01[df_completo_01['overall_manager_rating'].notnull() & df_completo_01['overall_manager_label'].isnull()].shape[0]
- = df_completo_01[df_completo_01['overall_manager_label'].notnull() & df_completo_01['overall_manager_rating'].isnull()].shape[0]
-print("Cantidad de filas con valor en 'overall_manager_rating', pero sin valor en 'overall_manager_label':", num_rows_only_overall_manager_rating)
-print("Cantidad de filas con valor en 'overall_manager_label', pero sin valor en 'overall_manager_rating':", num_rows_only_overall_manager_label)
-
 filtered_df = df_completo_01[df_completo_01['overall_manager_label'].notnull() & df_completo_01['overall_manager_rating'].isnull()]
 values_only_overall_manager_label = filtered_df['overall_manager_label']
 print("Valores en 'overall_manager_label' que no tienen valor en 'overall_manager_rating':")
