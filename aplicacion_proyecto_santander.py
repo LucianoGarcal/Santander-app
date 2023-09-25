@@ -31,7 +31,6 @@ import sys
 import numpy as np
 import os.path
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set(font_scale=1.5)
 sns.set_style("whitegrid")
@@ -507,18 +506,6 @@ print(correlations_with_column)
 #correlations_with_column1 = df_columnas_correlacion.corr(method='pearson')
 #print(correlations_with_column1)
 
-#mapa de correlación general
-plt.figure(figsize=(50, 50))
-sns.heatmap(correlacion_df_completo, annot=True, cmap='coolwarm', linewidths=0.5)
-plt.title('Mapa de Correlaciones')
-plt.show()
-
-#mapa correlación overall_manager_lebel
-plt.figure(figsize=(10, 8))
-sns.heatmap(correlations_with_column, annot=True, cmap='coolwarm', linewidths=0.5)
-plt.title('Mapa de Correlaciones')
-plt.show()
-
 # Cantidad de valores únicos en la columna 'mar_status'
 cantidad_valores_unicos = df_completo_01['mar_status'].nunique()
 
@@ -732,6 +719,8 @@ df_completo_01_ohe_scaled.head(10)
 
 df_completo_01_ohe_scaled. info
 
+df_completo_01_ohe_scaled = df_completo_01_ohe_scaled.fillna(0)
+
 ##Dividimos nuestro dataset en dos dataset: el primero tendrá un 90% de los datos y es el que usaremos para realizar el random forest y el segundo tendrá el 10% de los datos y lo##
 ##utilizaremos como datos de validación##
 
@@ -740,9 +729,6 @@ filas_10porciento = int(6616 * 0.10)
 filas_90porciento = total_filas - filas_10porciento
 df_10porciento = df_completo_01_ohe_scaled.sample(n=filas_10porciento, random_state=42)
 df_90porciento = df_completo_01_ohe_scaled.drop(df_10porciento.index)
-
-r2 = r2_score(y_test, y_pred)
-print(f'R-squared: {r2}')
 
 # Importa las bibliotecas necesarias
 import pandas as pd
@@ -778,6 +764,9 @@ feature_importances = rf_regressor.feature_importances_
 print("Importancia de las características:")
 for feature, importance in zip(X.columns, feature_importances):
     print(f"{feature}: {importance}")
+
+r2 = r2_score(y_test, y_pred)
+print(f'R-squared: {r2}')
 
 from sklearn.model_selection import cross_val_score
 
