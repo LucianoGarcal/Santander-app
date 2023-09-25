@@ -13,8 +13,6 @@ import os.path
 import pandas as pd
 
 # Subimos el archivo
-from google.colab import files
-uploaded = files.upload()
 
 df_2020 = pd.read_excel ("Proyect_SPA_2020.xlsx")
 df_2020.head(5)
