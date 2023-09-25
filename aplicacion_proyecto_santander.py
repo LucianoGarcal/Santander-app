@@ -264,101 +264,10 @@ values_only_overall_manager_label = filtered_df['overall_manager_label']
 print("Valores en 'overall_manager_label' que no tienen valor en 'overall_manager_rating':")
 print(values_only_overall_manager_label)
 
-unique_id_by_year_performance = df_completo_01.groupby('year_performance')['ID'].nunique()
-print("Valores únicos de 'ID' filtrados por 'year_performance':")
-print(unique_id_by_year_performan
-
-ids_2020 = df_completo_01[df_completo_01['year_performance'] == 2020]['ID']
-ids_2021 = df_completo_01[df_completo_01['year_performance'] == 2021]['ID']
-ids_2022 = df_completo_01[df_completo_01['year_performance'] == 2022]['ID']
-num_ids_repeated_2021 = ids_2020.isin(ids_2021).sum()
-num_ids_repeated_2022 = ids_2020.isin(ids_2022).sum()
-print("Cantidad de valores de 'ID' de 2020 que se repiten en 2021:", num_ids_repeated_2021)
-print("Cantidad de valores de 'ID' de 2020 que se repiten en 2022:", num_ids_repeated_2022)
-
-ids_2021 = df_completo_01[df_completo_01['year_performance'] == 2021]['ID']
-ids_2022 = df_completo_01[df_completo_01['year_performance'] == 2022]['ID']
-num_ids_repeated_2021_to_2022 = ids_2021.isin(ids_2022).sum()
-print("Cantidad de valores de 'ID' de 2021 que se repiten en 2022:", num_ids_repeated_2021_to_2022)
-
-data_2020 = df_completo_01[df_completo_01['year_performance'] == 2020]
-data_2021 = df_completo_01[df_completo_01['year_performance'] == 2021]
-ids_repeated_2020_to_2021 = data_2020[data_2020['ID'].isin(data_2021['ID'])]['ID'].unique()
-changes_in_tenure = False
-for id_ in ids_repeated_2020_to_2021:
-    tenure_2020 = data_2020[data_2020['ID'] == id_]['Tenure'].iloc[0]
-    tenure_2021 = data_2021[data_2021['ID'] == id_]['Tenure'].iloc[0]
-
-    if tenure_2020 != tenure_2021:
-        changes_in_tenure = True
-        break
-
-if changes_in_tenure:
-    print("Hay cambios en el valor de 'tenure' para los 'ID' que se repiten del 2020 al 2021.")
-else:
-    print("No hay cambios en el valor de 'tenure' para los 'ID' que se repiten del 2020 al 2021.")
-
-data_2021 = df_completo_01[df_completo_01['year_performance'] == 2021]
-data_2022 = df_completo_01[df_completo_01['year_performance'] == 2022]
-ids_repeated_2021_to_2022 = data_2021[data_2021['ID'].isin(data_2022['ID'])]['ID'].unique()
-changes_in_tenure = False
-for id_ in ids_repeated_2021_to_2022:
-    tenure_2021 = data_2021[data_2021['ID'] == id_]['Tenure'].iloc[0]
-    tenure_2022 = data_2022[data_2022['ID'] == id_]['Tenure'].iloc[0]
-
-    if tenure_2021 != tenure_2022:
-        changes_in_tenure = True
-        break
-
-if changes_in_tenure:
-    print("Hay cambios en el valor de 'Tenure' para los 'ID' que se repiten del 2021 al 2022.")
-else:
-    print("No hay cambios en el valor de 'Tenure' para los 'ID' que se repiten del 2021 al 2022.")
-
-repeated_ids = df_completo_01['ID'].duplicated(keep=False)
-data_repeated_ids = df_completo_01[repeated_ids]
-count_changes_in_job_family = 0
-for id_ in data_repeated_ids['ID'].unique():
-    data_id = data_repeated_ids[data_repeated_ids['ID'] == id_]
-    job_family_values = data_id['Job Family'].unique()
-    if len(job_family_values) > 1:
-        count_changes_in_job_family += 1
-print("Cantidad de 'ID' que han tenido cambios en 'Job Family':", count_changes_in_job_family)
-
-df_completo_01['overall_manager_rating'].fillna(2, inplace=True)
-df_completo_01['overall_manager_label'].fillna('Achieved', inplace=True)
-df_completo_01['overall_manager_label'] = df_completo_01['overall_manager_label'].map(lambda x: 'Achieved' if x == 0 else x)
-cantidad_valores_unicos = df_completo_01['overall_manager_label'
-valores_unicos = df_completo_01['overall_manager_label'].unique()
-print("Cantidad de valores únicos en la columna 'overall_manager_label':", cantidad_valores_unicos)
-print("Lista de valores únicos en la columna 'overall_manager_label':", valores_unicos)
-
-df_completo_01.shape
-
-df_completo_01.columns
-
-# Paso 1: Filtrar las filas con "year_performance" igual a 2022
-df_2022 = df_completo_01[df_completo_01['year_performance'] == 2022]
-
-# Paso 2: Crear un diccionario que mapee cada "ID" al valor de "Job Family" de 2022
-id_to_job_family_2022 = df_2022.set_index('ID')['Job Family'].to_dict()
-
-# Paso 3: Actualizar el DataFrame original con los valores unificados de "Job Family"
-df_completo_01['Job Family'] = df_completo_01['ID'].map(id_to_job_family_2022)
-
-# Imprimir los valores únicos después de la actualización
-cantidad_valores_unicos = df_completo_01['Job Family'].nunique()
-valores_unicos = df_completo_01['Job Family'].unique()
-
-print("Cantidad de valores únicos en la columna 'Job Family':", cantidad_valores_unicos)
-print("Lista de valores únicos en la columna 'Job Family':", valores_unicos)
-
 #Filtrar las entradas con "ID" igual a "AA001" para comprobar que el Job Family es igual en los tres años
 filtro = df_completo_01["ID"] == "AA001"
 entradas_con_id_concreto = df_completo_01[filtro]
 print(entradas_con_id_concreto)
-
-"""La función revisa cuál es el valor de "Job Family" y lo incluye en una nueva columna que indica el "Job Family Group" correspondiente"""
 
 #Definir la función para obtener el grupo de "Job Family"
 def get_job_family_group(job_family):
