@@ -31,9 +31,6 @@ import sys
 import numpy as np
 import os.path
 import pandas as pd
-import seaborn as sns
-sns.set(font_scale=1.5)
-sns.set_style("whitegrid")
 
 """Cargamos el archivo desde nuestra carpeta local
 
