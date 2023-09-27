@@ -13,6 +13,8 @@ import os.path
 import pandas as pd
 
 # Subimos el archivo
+from google.colab import files
+uploaded = files.upload()
 
 df_2020 = pd.read_excel ("Proyect_SPA_2020.xlsx")
 df_2020.head(5)
@@ -397,6 +399,12 @@ df_completo_01_ohe_scaled. info
 
 df_completo_01_ohe_scaled = df_completo_01_ohe_scaled.fillna(0)
 
+total_filas = len(df_completo_01_ohe_scaled)
+filas_10porciento = int(6616 * 0.10)
+filas_90porciento = total_filas - filas_10porciento
+df_10porciento = df_completo_01_ohe_scaled.sample(n=filas_10porciento, random_state=42)
+df_90porciento = df_completo_01_ohe_scaled.drop(df_10porciento.index)
+
 # Importa las bibliotecas necesarias
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -427,12 +435,6 @@ feature_importances = rf_regressor.feature_importances_
 print("Importancia de las características:")
 for feature, importance in zip(X.columns, feature_importances):
     print(f"{feature}: {importance}")
-
-total_filas = len(df_completo_01_ohe_scaled)
-filas_10porciento = int(6616 * 0.10)
-filas_90porciento = total_filas - filas_10porciento
-df_10porciento = df_completo_01_ohe_scaled.sample(n=filas_10porciento, random_state=42)
-df_90porciento = df_completo_01_ohe_scaled.drop(df_10porciento.index)
 
 r2 = r2_score(y_test, y_pred)
 print(f'R-squared: {r2}')
@@ -474,6 +476,7 @@ Inferimos que el modelo va a ser utilizado de forma manual, por lo que la herram
 
 """
 
+!pip install streamlit
 import streamlit as st
 import joblib
 
