@@ -476,7 +476,6 @@ Inferimos que el modelo va a ser utilizado de forma manual, por lo que la herram
 
 """
 
-!pip install streamlit
 import streamlit as st
 import joblib
 
